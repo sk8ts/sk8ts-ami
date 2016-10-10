@@ -1,0 +1,27 @@
+---
+
+- name: ensure cni release cache dir exists
+  file:
+    path: "{{ cni_release_cache_dir }}"
+    state: "directory"
+    owner: "ubuntu"
+    group: "ubuntu"
+
+# For convenience...
+- set_fact:
+     cni_tar: "{{ cni_release_tar.url | basename }}"
+
+- name: download cni release
+  get_url:
+     url: "{{ cni_release_tar.url }}"
+     dest: "{{ cni_release_cache_dir }}/{{ cni_tar }}"
+     force: False
+
+- name: untar cni release
+  unarchive:
+    src: "{{ cni_release_cache_dir }}/{{ cni_tar }}"
+    dest: "{{ cni_release_cache_dir }}"
+    copy: False
+    creates: "{{ cni_release_cache_dir }}/cni"
+    owner: "ubuntu"
+    group: "ubuntu"

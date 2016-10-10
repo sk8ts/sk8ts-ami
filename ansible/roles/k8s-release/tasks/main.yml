@@ -1,0 +1,51 @@
+---
+
+- name: ensure k8s release cache dir exists
+  file:
+    path: "{{ k8s_release_cache_dir }}"
+    state: "directory"
+    owner: "ubuntu"
+    group: "ubuntu"
+
+# FIXME: force: False is supposed to take care of this, but it seems to
+# be doing something else time consuming so just check if the file is
+# already there, and if so, don't even run get_url.
+#- name: check if the k8s release tar has already been downloaded
+#  stat:
+#    path: "{{ k8s_release_cache_dir }}/kubernetes.tar.gz"
+#  register: k8s_release_tar_exists
+#  ignore_errors: True
+
+- name: check if the k8s release tar has already been downloaded
+  command: ls {{ k8s_release_cache_dir }}/kubernetes.tar.gz
+  register: ls_tar
+  ignore_errors: True
+
+- name: download k8s release
+  get_url:
+     url: "{{ k8s_release_tar.url }}"
+     checksum: "sha256:{{ k8s_release_tar.sha256 }}"
+     dest: "{{ k8s_release_cache_dir }}/kubernetes.tar.gz"
+     force: False
+  when: ls_tar.rc > 0
+  #when: ( k8s_release_tar_exists is not defined ) or
+  #      ( k8s_release_tar_exists.exists == False )
+
+- name: untar k8s release
+  unarchive:
+    src: "{{ k8s_release_cache_dir }}/kubernetes.tar.gz"
+    dest: "{{ k8s_release_cache_dir }}"
+    copy: False
+    creates: "{{ k8s_release_cache_dir }}/kubernetes"
+    owner: "ubuntu"
+    group: "ubuntu"
+
+# For some reason this is contained inside the k8s release
+- name: untar k8s-server release
+  unarchive:
+    src: "{{ k8s_release_cache_dir }}/kubernetes/server/kubernetes-server-linux-amd64.tar.gz"
+    dest: "{{ k8s_release_cache_dir }}"
+    copy: False
+    creates: "{{ k8s_release_cache_dir }}/kubernetes/server/bin"
+    owner: "ubuntu"
+    group: "ubuntu"

@@ -1,0 +1,26 @@
+---
+
+- name: ensure etcd release cache dir exists
+  file:
+    path: "{{ etcd_release_cache_dir }}"
+    state: "directory"
+    owner: "ubuntu"
+    group: "ubuntu"
+
+# For convenience...
+- set_fact:
+     etcd_tar: "{{ etcd_release_tar.url | basename }}"
+
+- name: download etcd release
+  get_url:
+     url: "{{ etcd_release_tar.url }}"
+     dest: "{{ etcd_release_cache_dir }}/{{ etcd_tar }}"
+     force: False
+
+- name: untar etcd release
+  unarchive:
+    src: "{{ etcd_release_cache_dir }}/{{ etcd_tar }}"
+    dest: "{{ etcd_release_cache_dir }}"
+    copy: False
+    owner: "ubuntu"
+    group: "ubuntu"

@@ -1,0 +1,28 @@
+---
+
+- name: ensure docker release cache dir exists
+  file:
+    path: "{{ docker_release_cache_dir }}"
+    state: "directory"
+    owner: "ubuntu"
+    group: "ubuntu"
+
+# For convenience...
+- set_fact:
+     docker_tar: "{{ docker_release_tar.url | basename }}"
+
+- name: download docker release
+  get_url:
+     url: "{{ docker_release_tar.url }}"
+     checksum: "sha256:{{ docker_release_tar.sha256 }}"
+     dest: "{{ docker_release_cache_dir }}/{{ docker_tar }}"
+     force: False
+
+- name: untar docker release
+  unarchive:
+    src: "{{ docker_release_cache_dir }}/{{ docker_tar }}"
+    dest: "{{ docker_release_cache_dir }}"
+    copy: False
+    creates: "{{ docker_release_cache_dir }}/docker"
+    owner: "ubuntu"
+    group: "ubuntu"

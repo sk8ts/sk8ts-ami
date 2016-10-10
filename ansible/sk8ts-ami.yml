@@ -1,0 +1,19 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: True
+  roles:
+    - etcd-release
+    - k8s-release
+    - docker-release
+    - cni-release
+    - sk8ts-venv
+
+  tasks:
+    - name: ensure /opt/sk8ts exists
+      file: 
+        name: "/opt/sk8ts"
+        state: "directory"
+        owner: "ubuntu"
+        group: "ubuntu"

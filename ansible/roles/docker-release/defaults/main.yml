@@ -1,0 +1,9 @@
+---
+
+docker_release_cache_dir: "/var/cache/docker-release"
+
+
+# NOTE: If you add .sha256 to the end of the tgz url you can get the sha256
+docker_release_tar:
+  url: "https://get.docker.com/builds/Linux/x86_64/docker-1.11.2.tgz"
+  sha256: "8c2e0c35e3cda11706f54b2d46c2521a6e9026a7b13c7d4b8ae1f3a706fc55e1"

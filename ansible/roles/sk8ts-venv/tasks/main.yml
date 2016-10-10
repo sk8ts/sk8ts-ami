@@ -1,0 +1,17 @@
+---
+
+- name: ensure python-virtualenv is installed
+  apt:
+    name: "python-virtualenv"
+
+# sk8ts will use this venv/ansible not the one that was installed on the system
+- name: install a venv that has all the requirements to run sk8ts
+  pip: 
+    virtualenv: /opt/sk8ts-venv
+    virtualenv_python: python2.7
+    name: "{{ item }}"
+  with_items:
+    - boto
+    - boto3
+    - ansible
+

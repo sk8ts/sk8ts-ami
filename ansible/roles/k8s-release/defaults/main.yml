@@ -1,0 +1,7 @@
+---
+
+k8s_release_cache_dir: "/var/cache/k8s-release"
+
+k8s_release_tar:
+  url: "https://github.com/kubernetes/kubernetes/releases/download/v1.4.0/kubernetes.tar.gz"
+  sha256: "6cf3d78230f7659b87fa399a56a7aaed1fde6a73be9d05e25feedacfbd8d5a16"

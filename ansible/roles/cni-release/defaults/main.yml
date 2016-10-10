@@ -1,0 +1,7 @@
+---
+
+cni_release_cache_dir: "/var/cache/cni-release"
+
+# Good luck finding a sha on this one
+cni_release_tar:
+  url: "https://storage.googleapis.com/kubernetes-release/network-plugins/cni-c864f0e1ea73719b8f4582402b0847064f9883b0.tar.gz"

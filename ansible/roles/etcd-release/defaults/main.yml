@@ -1,0 +1,7 @@
+---
+
+etcd_release_cache_dir: "/var/cache/etcd-release"
+
+#FIXME: need sha
+etcd_release_tar:
+  url: "https://github.com/coreos/etcd/releases/download/v3.0.10/etcd-v3.0.10-linux-amd64.tar.gz"
