@@ -1,0 +1,3 @@
+---
+
+ansible_log_directory: "/var/log/ansible"

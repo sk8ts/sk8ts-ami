@@ -1,0 +1,14 @@
+---
+
+- name: checkout the sk8ts-ansible repository to /opt/sk8ts
+  git:
+    repo: "https://github.com/sk8ts/sk8ts-ansible"
+    dest: "/opt/sk8ts"
+
+- name: ensure ansible log directory exists
+  file:
+    path: "{{ ansible_log_directory }}"
+    state: "directory"
+    owner: "{{ ansible_env.SUDO_USER }}"
+    group: "{{ ansible_env.SUDO_USER }}" 
+    mode: "0755"

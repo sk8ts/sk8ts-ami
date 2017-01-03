@@ -4,11 +4,13 @@
   connection: local
   become: True
   roles:
+    - cfssl-release
     - etcd-release
     - k8s-release
     - docker-release
     - cni-release
     - sk8ts-venv
+    - sk8ts-ansible-release
 
   tasks:
     - name: ensure /opt/sk8ts exists
@@ -17,3 +19,4 @@
         state: "directory"
         owner: "ubuntu"
         group: "ubuntu"
+        recursive: true

@@ -1,0 +1,18 @@
+---
+
+- name: ensure cfssl release cache dir exists
+  file:
+    path: "{{ cfssl_release_cache_dir }}"
+    state: "directory"
+    owner: "ubuntu"
+    group: "ubuntu"
+
+- name: download cfssl release binaries
+  get_url:
+     url: "{{ item.url }}"
+     checksum: "sha256:{{ item.sha256 }}"
+     dest: "{{ cfssl_release_cache_dir }}/{{ item.name }}"
+     force: False
+     owner: "ubuntu"
+     group: "ubuntu"
+  with_items: "{{ cfssl_release_binaries }}"

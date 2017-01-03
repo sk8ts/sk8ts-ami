@@ -13,5 +13,5 @@
   with_items:
     - boto
     - boto3
-    - ansible
+    - ansible=={{ sk8ts_ansible_version }}
 
